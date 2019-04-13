@@ -1,35 +1,44 @@
-h1, h2, h3, h4, h5, h6 {
-  color: #444444;
+body{
+    margin: 0;
 }
-
-#form-div{
+#container {height: 100%; width:100%; font-size: 0;}
+#left, #right {display: inline-block; *display: inline; zoom: 1; vertical-align: top; font-size: 12px;}
+#left {width: 32%; float:left}
+#right {width: 65%; float: right}
+.header{
+  width: 100%;
+  height: 20%;
+  font-size: 30px;
+  color: white;
+  background-color: #444444;
+    text-align: center;
+}
+.form-div{
   width: 100%;
   height: 20%;
   background-color: dimgray;
   color: white;
 }
-
 #form-first-select, #form-second_select, #form-input{
-  display: inline-block; *display: inline; zoom: 1; vertical-align: top; font-size: 12px;
-  float: left
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: top;
+    font-size: 12px;
 }
-#form-first-select, #form-second_select{
+#form-first-select{
   width: 30%;
-  margin: 10px;
+    margin:10px;
+  margin-right: 10%;
+    float: left
 }
-
 #form-second_select{
   width: 30%;
-  margin: 10%
+  margin: 10px;
+    float: left;
 }
-
 #form-input{
   width: 10%;
-  margin: 30px;
+    margin: 10px;
+    float: left;
 }
-
-#container {height: 100%; width:100%; font-size: 0;}
-#left, #middle, #right {display: inline-block; *display: inline; zoom: 1; vertical-align: top; font-size: 12px;}
-#left {width: 25%; background: blue;}
-#middle {width: 50%; background: green;}
-#right {width: 25%; background: yellow;}

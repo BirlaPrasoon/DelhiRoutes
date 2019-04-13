@@ -18,7 +18,6 @@ gtfs = GTFS(app.config['routes_path'],
             app.config['stops_times_path'],
             app.config['trips_path'])
 
-print(gtfs.zero_hop(764, 2871))
 
 @app.route('/', methods=['GET', 'POST'])
 def get_routes():
@@ -79,11 +78,11 @@ def get_routes():
         if len(onehop)>50:
             onehop = onehop[0:50]
 
-        return render_template('routes_form.html', title='Find Routes', stops=gtfs.stop_names_id,
+        return render_template('layout.html', title='Find Routes', stops=gtfs.stop_names_id,
                                zerohop_result=zerohop_res, onehop_result=onehop[0:50],
                                total_onehop_results = total_onehop_results, total_zerohop_results= total_zerohop_results)
 
-    return render_template('routes_form.html', title='Find Routes', stops=gtfs.stop_names_id)
+    return render_template('layout.html', title='Find Routes', stops=gtfs.stop_names_id)
 
 
 if __name__ == '__main__':
