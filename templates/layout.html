@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+{#         <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">#}
+
+        <style>
+            body{
+                margin: 0;
+            }
+            #container {height: 100%; width:100%; font-size: 0;}
+            #left, #right {display: inline-block; *display: inline; zoom: 1; vertical-align: top; font-size: 12px;}
+            #left {width: 32%; float:left}
+            #right {width: 65%; float: right}
+            .header{
+              width: 100%;
+              height: 20%;
+              font-size: 30px;
+              color: white;
+              background-color: #444444;
+                text-align: center;
+            }
+            .form-div{
+              width: 100%;
+              height: 20%;
+              background-color: dimgray;
+              color: white;
+            }
+            #form-first-select, #form-second_select, #form-input{
+                display: inline-block;
+                *display: inline;
+                zoom: 1;
+                vertical-align: top;
+                font-size: 12px;
+            }
+            #form-first-select{
+              width: 30%;
+                margin:10px;
+              margin-right: 10%;
+                float: left
+            }
+            #form-second_select{
+              width: 30%;
+              margin: 10px;
+                float: left;
+            }
+            #form-input{
+              width: 10%;
+                margin: 10px;
+                float: left;
+            }
+
+        </style>
+
+            <title>Delhi Routes</title>
+
+    </head>
+<body>
+
+    <div class="header">Delhi Routes</div>
+{##}
+{#    <main role="main">#}
+{#        <div class="row">#}
+{#            <div class="col-md-8">#}
+{##}
+{#            {% with messages = get_flashed_messages(with_categories=true) %}#}
+{#            {% if messages %}#}
+{#              {% for category, message in messages %}#}
+{#                <div class="alert alert-{{ category }}">#}
+{#                  {{ message }}#}
+{#                </div>#}
+{#              {% endfor %}#}
+{#            {% endif %}#}
+{#            {% endwith %}#}
+{##}
+{#        </div>#}
+{#        </div>#}
+{#    </main>#}
+
+    <div id="container">
+    <div class="form-div">
+
+         <form action="" method="post" class="form-div">
+
+            {#  flask_wtf could not handle that much select fields so using html form  #}
+            <label class="label" id="form-first-select" >
+                <select name="start stop" id="s_stop" class="form-control ">
+                    <option disabled selected value > -- select an option -- </option>
+                    {% if stops.count() > 0 %}
+                        {% for stop in stops %}
+                            <option value="{{ stop }}">{{ stop }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+            </label>
+
+            <label class="label" id="form-second_select">
+                <select name="end stop" id="e_stop" class="form-control ">
+                <option disabled selected value> -- select an option -- </option>
+                {% if stops.count() > 0 %}
+                    {% for stop in stops %}
+                        <option value="{{ stop }}">{{ stop }}</option>
+                    {% endfor %}
+                {% endif %}
+                </select>
+            </label>
+
+            <input type="submit" id="form-input" class="btn btn-primary">
+
+        </form>
+    </div>
+    </div>
+
+<div id="container">
+    <div id="left">
+
+        {% if total_zerohop_results  %}
+            <h2>All Possible Zero hop trips:  {{ total_zerohop_results }}</h2>
+        {% if total_zerohop_results >50 %}
+            <small> Showing first 50 trips</small>
+        {% endif %}
+        {% else %}
+            <h2>No Zero hop trips found</h2>
+        {% endif %}
+
+
+
+  <table class="table">
+    <thead class="thead-dark">
+
+    <tr>
+        <th>Common Trips </th>
+    </tr>
+
+    </thead>
+    <tbody>
+
+        {% if zerohop_result %}
+            {% for result in zerohop_result %}
+              <tr>
+                <td>{{ result }}</td>
+              </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+
+  </table>
+
+</div>
+
+    <div id="right">
+    {% if total_onehop_results %}
+            <h2>One hop Possible trips:  {{ total_onehop_results }}</h2>
+        {% if total_onehop_results >50 %}
+            <small> Showing first 50 trips</small>
+        {% endif %}
+    {% else %}
+             <h2>No One hop trips found for selected stops</h2>
+    {% endif %}
+  <table class="table">
+    <thead class="thead-dark">
+
+    <tr>
+            <th>First Trip ID</th>
+            <th>First Trip Arrival Time</th>
+            <th>First Trip Departure Time</th>
+            <th>Second Trip ID</th>
+            <th>Second Trip Arrival Time</th>
+            <th>Second Trip Departure Time</th>
+
+      </tr>
+
+    </thead>
+    <tbody>
+
+        {% if onehop_result %}
+            {% for result in onehop_result %}
+              <tr>
+                <td>{{ result.first_trip_id }}</td>
+                <td>{{ result.first_tp_arrival_time }}</td>
+                <td>{{ result.first_tp_departure_time }}</td>
+                <td>{{ result.second_trip_id }}</td>
+                <td>{{ result.second_tp_arrival_time }}</td>
+                <td>{{ result.second_tp_departure_time }}</td>
+              </tr>
+            {% endfor %}
+        {% endif %}
+    </tbody>
+
+  </table>
+</div>
+</div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
